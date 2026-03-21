@@ -25,9 +25,33 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tiktok-launch-system.vercel.app"),
   title: "TikTok Launch System — 0 to 10K Users, $0 Ad Spend",
   description:
     "The exact TikTok system used to take apps from invisible to thousands of daily downloads. No ads. No tricks. A repeatable content engine you can hand to a VA.",
+  openGraph: {
+    title: "TikTok Launch System — 0 to 10K Users, $0 Ad Spend",
+    description:
+      "The exact TikTok system used to take apps from invisible to thousands of daily downloads. No ads. No tricks. A repeatable content engine you can hand to a VA.",
+    url: "https://tiktok-launch-system.vercel.app",
+    siteName: "TikTok Launch System",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "TikTok Launch System — 0 to 10K Users, $0 Ad Spend",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TikTok Launch System — 0 to 10K Users, $0 Ad Spend",
+    description:
+      "0 to 10,000 users. Zero ad spend. The repeatable TikTok system for app founders.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function RootLayout({
