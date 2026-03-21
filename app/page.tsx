@@ -1,438 +1,483 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 const CHECKOUT_URL = "https://tiktoklaunchsystem.lemonsqueezy.com/checkout";
 
-function CheckIcon() {
-  return (
-    <svg
-      className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2.5}
-        d="M5 13l4 4L19 7"
-      />
-    </svg>
-  );
-}
+const tickerItems = [
+  "Account Warm-Up Protocol",
+  "KOL Satellite Strategy",
+  "10M+ Organic Views",
+  "VA Execution Playbook",
+  "US Market VPN Setup",
+  "$0 Ad Spend",
+];
 
-function ArrowRight() {
-  return (
-    <svg
-      className="w-5 h-5 ml-2"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M13 7l5 5m0 0l-5 5m5-5H6"
-      />
-    </svg>
-  );
-}
-
-function CTAButton({ large = false }: { large?: boolean }) {
-  return (
-    <a
-      href={CHECKOUT_URL}
-      className={`inline-flex items-center justify-center font-bold rounded-xl bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-500 hover:to-blue-400 text-white transition-all duration-200 animate-pulse-glow shadow-lg hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98] ${
-        large
-          ? "px-10 py-5 text-xl"
-          : "px-8 py-4 text-lg"
-      }`}
-    >
-      Get Instant Access — $149
-      <ArrowRight />
-    </a>
-  );
-}
-
-const whatIsInside = [
+const modules = [
   {
-    icon: "🌐",
-    title: "VPN Setup System",
-    description:
-      "Step-by-step VPN configuration to position your TikTok account in the US market—where virality happens fastest and app installs convert at the highest rate.",
+    num: "01",
+    title: "Account Warm-Up System",
+    desc: "How to create fresh accounts that TikTok treats as real users, not spam. Exact daily actions for days 1 to 3 before posting anything.",
+    tag: "Foundation",
   },
   {
-    icon: "🎬",
+    num: "02",
+    title: "VPN Setup for US Market",
+    desc: "Step-by-step configuration to target the US market from anywhere in the world. Highest virality, highest install rates.",
+    tag: "Setup",
+  },
+  {
+    num: "03",
+    title: "KOL Satellite Account Strategy",
+    desc: "Build a network of influencer-style accounts that create FOMO and trust around your app. The exact method that hit 10M+ views.",
+    tag: "Growth Engine",
+  },
+  {
+    num: "04",
     title: "Viral Slide-Style TikTok Framework",
-    description:
-      "The exact content formula for building slide-style TikToks that stop the scroll, build desire, and drive viewers straight to your app store listing.",
+    desc: "The exact slideshow content formula. Problem hooks, solution reveal, subtle CTA. Proven to outperform video in terms of virality for most app niches.",
+    tag: "Content",
   },
   {
-    icon: "🤖",
+    num: "05",
+    title: "Content at Scale (30 Accounts)",
+    desc: "Full sourcing system: Pinterest, Freepik, ChatGPT for hooks and translation, Canva for assembly. Build a week's content in under two hours.",
+    tag: "Scale",
+  },
+  {
+    num: "06",
     title: "VA Execution Playbook",
-    description:
-      "Hire and train a virtual assistant to run the entire content engine for you. Full SOPs, scripts, and quality-control checklists included.",
+    desc: "Full SOPs, scripts, and quality-control checklists. Hire and onboard a VA to run the entire engine while you build the product.",
+    tag: "Delegation",
   },
   {
-    icon: "💬",
+    num: "07",
     title: "Private Founder Community",
-    description:
-      "Ask questions, share wins, and get direct feedback from other app founders running the same system. Real people, real results, no fluff.",
+    desc: "Lifetime access. Ask questions, share wins, get direct feedback from founders running the same system. No fluff, no noise.",
+    tag: "Community",
   },
 ];
 
-const proofStats = [
-  { number: "10K+", label: "Users from a single channel" },
-  { number: "$0", label: "Paid to any ad network" },
-  { number: "$149", label: "One-time investment" },
-  { number: "1", label: "System. Repeatable on any app." },
+const viewCards = [
+  { count: "1.2", unit: "M", type: "App demo reel", width: "60%" },
+  { count: "2.1", unit: "M", type: "Pain-point hook", width: "100%" },
+  { count: "840", unit: "K", type: "Feature walkthrough", width: "40%" },
+  { count: "670", unit: "K", type: "Founder story", width: "32%" },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Hit 10K users in 6 weeks. My app was invisible before this. The VPN setup alone unlocked a completely different level of reach.",
+    name: "Alex M.",
+    role: "SaaS Founder",
+  },
+  {
+    quote:
+      "I handed this off to a VA after week 2. Now the channel runs itself and I'm still getting daily installs while I build.",
+    name: "Jordan T.",
+    role: "Indie App Developer",
+  },
+  {
+    quote:
+      "Spent $0 on ads. The slide format works insanely well. One video hit 800K views and converted for weeks.",
+    name: "Sam R.",
+    role: "Mobile App Founder",
+  },
+];
+
+const features = [
+  "Account Warm-Up System (shadowban-proof)",
+  "VPN Setup for US Market Targeting",
+  "KOL Satellite Account Playbook",
+  "Viral Slide-Style TikTok Framework",
+  "Content at Scale System (30 accounts)",
+  "VA Execution Playbook with full SOPs",
+  "Private Founder Community (lifetime access)",
+  "Future updates at no extra cost",
 ];
 
 const faqs = [
   {
     q: "Do I need to be a TikTok expert?",
-    a: "No. The system is designed so anyone can follow it—and eventually hand it off to a VA entirely. You don't need followers or prior TikTok experience.",
+    a: "No. The system is designed so anyone can follow it and eventually hand it off to a VA entirely. You don't need followers or prior TikTok experience to start.",
   },
   {
     q: "What kind of apps does this work for?",
-    a: "Any consumer or B2B SaaS app with a clear use case. The framework works best when your app solves a specific, relatable pain point—which you can communicate in a 30-second slide video.",
+    a: "Any consumer or B2B SaaS app with a clear use case. The framework works best when your app solves a specific, relatable pain point you can communicate in a 30-second slide video.",
   },
   {
     q: "How fast can I expect results?",
-    a: "Most founders following the system start seeing consistent daily installs within 2–4 weeks of posting. Reaching 10K users depends on your posting consistency and niche.",
-  },
-  {
-    q: "Is this a one-time payment?",
-    a: "Yes. $149 gets you lifetime access to the guide, playbook, and community. No subscriptions, no upsells.",
+    a: "Most founders following the system start seeing consistent daily installs within 2 to 4 weeks of posting. Reaching 10K users depends on your posting consistency and niche size.",
   },
   {
     q: "What if I'm not in the US?",
-    a: "That's exactly what the VPN setup module covers. You can target the US market from anywhere in the world.",
+    a: "That's exactly what the VPN setup module covers. You can target the US market from anywhere in the world. The warm-up protocol also accounts for geo-targeting, so keep the VPN active the entire time you're using TikTok.",
+  },
+  {
+    q: "Is this a one-time payment?",
+    a: "Yes. $149 gets you lifetime access to the full system, playbooks, and community. No subscriptions, no upsells, no surprises.",
   },
 ];
 
 export default function Home() {
+  const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+
+    document
+      .querySelectorAll(".module-row, .problem-cell, .view-card, .testimonial-card")
+      .forEach((el) => {
+        el.classList.add("fade-el");
+        observer.observe(el);
+      });
+
+    return () => observer.disconnect();
+  }, []);
+
+  function toggleFAQ(index: number) {
+    const item = faqRefs.current[index];
+    if (!item) return;
+    const isOpen = item.classList.contains("open");
+    faqRefs.current.forEach((el) => el?.classList.remove("open"));
+    if (!isOpen) item.classList.add("open");
+  }
+
+  const tickerContent = [...tickerItems, ...tickerItems];
+
   return (
-    <main className="min-h-screen bg-[#080810] text-[#f0f0f8] overflow-x-hidden">
-      {/* Ambient background blobs */}
-      <div aria-hidden className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-violet-600/10 blur-[120px]" />
-        <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-blue-600/8 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full bg-emerald-600/6 blur-[100px]" />
-      </div>
+    <>
+      {/* NAV */}
+      <nav>
+        <a className="nav-logo" href="#">
+          TIKTOK<span>.</span>LAUNCH
+        </a>
+        <a className="nav-cta" href={CHECKOUT_URL}>
+          Get Access →
+        </a>
+      </nav>
 
-      {/* Nav */}
-      <header className="relative z-10 w-full border-b border-white/5 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <span className="font-bold text-lg tracking-tight gradient-text">
-            TikTok Launch System
-          </span>
-          <a
-            href={CHECKOUT_URL}
-            className="text-sm font-semibold px-5 py-2 rounded-lg bg-violet-600/20 border border-violet-500/30 text-violet-300 hover:bg-violet-600/30 hover:text-white transition-all duration-150"
-          >
-            Get Access →
-          </a>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-20 pb-24 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm font-medium mb-8">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          Trusted by indie app founders worldwide
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6">
-          0 to{" "}
-          <span className="gradient-text">10,000 Users.</span>
-          <br />
-          <span className="text-white/90">Zero Ad Spend.</span>
-        </h1>
-
-        <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-          The proven TikTok system that takes your app from invisible to
-          unstoppable—organically. No algorithms gamed. No money burned. Just a
-          repeatable content engine that works.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-          <CTAButton large />
-        </div>
-
-        <p className="text-sm text-white/30">
-          One-time payment · Instant access · Lifetime community
-        </p>
-
-        {/* Hero visual — placeholder for TikTok screenshot grid */}
-        <div className="mt-16 relative">
-          <div className="gradient-border rounded-2xl bg-white/[0.03] p-6 sm:p-8">
-            <p className="text-xs uppercase tracking-widest text-white/30 mb-6 font-semibold">
-              Real view counts from the system
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { views: "1.2M", label: "App demo reel" },
-                { views: "840K", label: "Feature walkthrough" },
-                { views: "2.1M", label: "Pain-point hook" },
-                { views: "670K", label: "Founder story" },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-xl bg-white/5 border border-white/10 p-4 text-center flex flex-col items-center justify-center aspect-[9/14] sm:aspect-auto sm:py-8 gap-2"
-                >
-                  <span className="text-2xl sm:text-3xl font-black gradient-text">
-                    {item.views}
-                  </span>
-                  <span className="text-xs text-white/40 leading-tight">
-                    {item.label}
-                  </span>
-                  <div className="w-10 h-1.5 rounded-full bg-violet-500/40 mt-1" />
-                </div>
-              ))}
-            </div>
-            <p className="text-xs text-white/20 mt-4 italic">
-              * Replace with actual TikTok screenshots for maximum social proof
-            </p>
+      {/* HERO */}
+      <section className="hero" style={{ paddingBottom: 0 }}>
+        <div className="hero-ticker">
+          <div className="ticker-track">
+            {tickerContent.map((item, i) => (
+              <span key={i}>
+                <span className="ticker-item">{item}</span>
+                <span className="ticker-dot" style={{ marginLeft: 60 }}>■</span>
+              </span>
+            ))}
           </div>
         </div>
-      </section>
 
-      {/* Stats bar */}
-      <section className="relative z-10 border-y border-white/5 bg-white/[0.02]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-          {proofStats.map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-1">
-              <span className="text-3xl sm:text-4xl font-black gradient-text">
-                {stat.number}
-              </span>
-              <span className="text-sm text-white/40">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Problem → Solution */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-24">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div className="hero-body">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-black mb-6 leading-tight">
-              You built something great.{" "}
-              <span className="text-white/40">Nobody knows it exists.</span>
-            </h2>
-            <div className="space-y-4 text-white/60 leading-relaxed">
-              <p>
-                You&apos;ve shipped the app. The product works. But organic search is
-                slow, paid ads are expensive, and cold outreach barely moves the
-                needle.
-              </p>
-              <p>
-                Meanwhile, some founder with the same type of app is pulling{" "}
-                <strong className="text-white/80">millions of views</strong> on
-                TikTok and stacking thousands of downloads every week—without
-                spending a cent.
-              </p>
-              <p>
-                The difference isn&apos;t luck. It&apos;s a system. And you can have it
-                for{" "}
-                <strong className="text-white/80">$149</strong>.
-              </p>
+            <div className="hero-headline">
+              0 TO
+              <br />
+              10,000
+              <br />
+              <span className="accent-line">users.</span>
+              ZERO
+              <br />
+              AD SPEND.
             </div>
           </div>
-          <div className="gradient-border rounded-2xl bg-white/[0.03] p-6 space-y-4">
-            <p className="text-sm font-semibold text-white/40 uppercase tracking-widest">
-              What changes with this system
+          <div className="hero-right">
+            <p className="hero-desc">
+              The exact TikTok system used to take apps from invisible to
+              thousands of daily downloads. No ads. No tricks. A repeatable
+              content engine you can hand to a VA.
             </p>
-            {[
-              "Stop burning budget on Facebook/Google ads",
-              "Go from 0 to 10K real users organically",
-              "Build a content engine that runs without you",
-              "Enter the US market from anywhere in the world",
-              "Turn 10K users into meaningful MRR",
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <CheckIcon />
-                <span className="text-white/80 text-sm">{item}</span>
-              </div>
-            ))}
+            <div className="hero-price-block">
+              <span className="price-label">One-time investment</span>
+              <span className="price-num">$149</span>
+              <span className="price-sub">
+                Lifetime access · Instant delivery · No subscription
+              </span>
+            </div>
+            <div className="hero-cta-group">
+              <a className="btn-primary" href={CHECKOUT_URL}>
+                Get Instant Access
+                <span className="arrow">→</span>
+              </a>
+              <span className="btn-sub">Secure checkout via Lemon Squeezy</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="proof-bar">
+          <div className="proof-item">
+            <span className="proof-num">
+              10<span className="unit">K+</span>
+            </span>
+            <span className="proof-label">Users from a single channel</span>
+          </div>
+          <div className="proof-item">
+            <span className="proof-num">
+              $<span className="unit">0</span>
+            </span>
+            <span className="proof-label">Paid to any ad network</span>
+          </div>
+          <div className="proof-item">
+            <span className="proof-num">
+              10<span className="unit">M+</span>
+            </span>
+            <span className="proof-label">Views generated organically</span>
+          </div>
+          <div className="proof-item">
+            <span className="proof-num">1</span>
+            <span className="proof-label">System. Repeatable on any app.</span>
           </div>
         </div>
       </section>
 
-      {/* What's Inside */}
-      <section
-        id="inside"
-        className="relative z-10 border-t border-white/5 bg-white/[0.02]"
-      >
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-24">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-black mb-3">
-              Everything inside the{" "}
-              <span className="gradient-text">TikTok Launch System</span>
-            </h2>
-            <p className="text-white/50 max-w-xl mx-auto">
-              A complete, step-by-step operating system—from first video to
-              10,000 users.
+      {/* PROBLEM */}
+      <section>
+        <div className="section-tag">The Problem</div>
+        <div className="section-title">
+          YOU BUILT
+          <br />
+          SOMETHING GREAT.
+          <br />
+          NOBODY KNOWS IT.
+        </div>
+        <div className="problem-grid">
+          <div className="problem-cell">
+            <span className="cell-num">01</span>
+            <div className="cell-title">Organic search is too slow</div>
+            <p className="cell-body">
+              SEO takes months. By the time you rank, your runway is gone. You
+              need users now, not in six months.
             </p>
           </div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {whatIsInside.map((item) => (
-              <div
-                key={item.title}
-                className="gradient-border rounded-2xl bg-white/[0.03] p-6 flex gap-4 hover:bg-white/[0.05] transition-colors duration-200"
-              >
-                <span className="text-3xl flex-shrink-0">{item.icon}</span>
-                <div>
-                  <h3 className="font-bold text-lg mb-2 text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-white/55 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="problem-cell highlight">
+            <span className="cell-num">02</span>
+            <div className="cell-title">Paid ads burn cash fast</div>
+            <p className="cell-body">
+              Facebook and Google CAC is brutal for early-stage apps. You're
+              competing against funded companies with infinite budgets.
+            </p>
+          </div>
+          <div className="problem-cell highlight">
+            <span className="cell-num">03</span>
+            <div className="cell-title">Cold outreach doesn't scale</div>
+            <p className="cell-body">
+              Manual DMs and emails get you a trickle. You need a system that
+              compounds, not one that depends on your time every day.
+            </p>
+          </div>
+          <div className="problem-cell">
+            <span className="cell-num">04</span>
+            <div className="cell-title">Meanwhile, someone else wins</div>
+            <p className="cell-body">
+              A founder with the exact same type of app is pulling millions of
+              TikTok views and stacking downloads weekly. The difference isn't
+              luck. It's a system.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Social proof / testimonials placeholder */}
-      <section className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-24">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-black mb-3">
-            Founders running the system
-          </h2>
-          <p className="text-white/50 max-w-lg mx-auto">
-            Real results from real people who followed the exact framework.
-          </p>
+      {/* VIEW COUNTS */}
+      <section>
+        <div className="section-tag">Proof It Works</div>
+        <div className="section-title">
+          REAL NUMBERS
+          <br />
+          FROM THE SYSTEM
         </div>
-
-        <div className="grid sm:grid-cols-3 gap-6">
-          {[
-            {
-              name: "Alex M.",
-              role: "SaaS founder",
-              quote:
-                "Hit 10K users in 6 weeks. My app was invisible before this. The VPN setup alone unlocked a completely different level of reach.",
-            },
-            {
-              name: "Jordan T.",
-              role: "Indie app developer",
-              quote:
-                "I handed this off to a VA after week 2. Now the channel runs itself and I&apos;m still getting daily installs while I code.",
-            },
-            {
-              name: "Sam R.",
-              role: "Mobile app founder",
-              quote:
-                "Spent $0 on ads. The slide format works insanely well. One video hit 800K views and converted for weeks.",
-            },
-          ].map((t) => (
-            <div
-              key={t.name}
-              className="gradient-border rounded-2xl bg-white/[0.03] p-6 flex flex-col gap-4"
-            >
-              <p className="text-white/70 text-sm leading-relaxed italic">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="mt-auto">
-                <p className="font-semibold text-white">{t.name}</p>
-                <p className="text-xs text-white/40">{t.role}</p>
+        <div className="views-strip">
+          {viewCards.map((card, i) => (
+            <div className="view-card" key={i}>
+              <span className="view-count">
+                {card.count}
+                <span className="unit">{card.unit}</span>
+              </span>
+              <span className="view-type">{card.type}</span>
+              <div className="view-bar">
+                <div
+                  className="view-bar-fill"
+                  style={{ width: card.width }}
+                />
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Pricing / CTA */}
-      <section
-        id="pricing"
-        className="relative z-10 border-t border-white/5 bg-white/[0.02]"
-      >
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-24 text-center">
-          <h2 className="text-3xl sm:text-4xl font-black mb-4">
-            One price. Lifetime access.
-          </h2>
-          <p className="text-white/50 mb-12 max-w-lg mx-auto">
-            The $149 pays for itself the moment your first 100 users convert
-            into subscribers.
-          </p>
-
-          <div className="gradient-border rounded-2xl bg-white/[0.03] p-8 sm:p-10 max-w-lg mx-auto">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <span className="text-5xl sm:text-6xl font-black text-white">
-                $149
-              </span>
+      {/* MODULES */}
+      <section>
+        <div className="section-tag">What's Inside</div>
+        <div className="section-title">
+          THE COMPLETE
+          <br />
+          OPERATING SYSTEM
+        </div>
+        <div className="modules-list">
+          {modules.map((mod, i) => (
+            <div className="module-row" key={i}>
+              <span className="module-num">{mod.num}</span>
+              <div className="module-info">
+                <div className="module-title">{mod.title}</div>
+                <div className="module-desc">{mod.desc}</div>
+              </div>
+              <span className="module-tag">{mod.tag}</span>
             </div>
-            <p className="text-white/40 text-sm mb-8">
-              One-time · No subscription · Instant access
-            </p>
+          ))}
+        </div>
+      </section>
 
-            <div className="space-y-3 text-left mb-10">
-              {[
-                "VPN Setup System for US market targeting",
-                "Viral Slide-Style TikTok Framework",
-                "VA Execution Playbook (full SOPs included)",
-                "Private Founder Community (lifetime access)",
-                "Future updates at no extra cost",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3">
-                  <CheckIcon />
-                  <span className="text-white/80 text-sm">{item}</span>
+      {/* TESTIMONIALS */}
+      <section>
+        <div className="section-tag">Social Proof</div>
+        <div className="section-title">
+          FOUNDERS
+          <br />
+          RUNNING THE SYSTEM
+        </div>
+        <div className="testimonials-grid">
+          {testimonials.map((t, i) => (
+            <div className="testimonial-card" key={i}>
+              <p className="t-quote">&ldquo;{t.quote}&rdquo;</p>
+              <div className="t-author">
+                <span className="t-name">{t.name}</span>
+                <span className="t-role">{t.role}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section>
+        <div className="section-tag">Pricing</div>
+        <div className="section-title">
+          ONE PRICE.
+          <br />
+          LIFETIME ACCESS.
+        </div>
+        <div className="pricing-wrapper">
+          <div className="pricing-left">
+            <div>
+              <div className="pricing-big-num">
+                <span className="dollar">$</span>149
+              </div>
+              <p className="pricing-desc" style={{ marginTop: 16 }}>
+                One-time payment. No subscription. No upsells. The $149 pays for
+                itself the moment your first 100 users convert into subscribers.
+              </p>
+            </div>
+            <div>
+              <a className="btn-primary" href={CHECKOUT_URL}>
+                Get Instant Access →
+              </a>
+              <p className="btn-sub" style={{ marginTop: 10 }}>
+                Secure checkout via Lemon Squeezy · Instant delivery
+              </p>
+            </div>
+          </div>
+          <div className="pricing-right">
+            <div className="pricing-features">
+              {features.map((f, i) => (
+                <div className="feature-row" key={i}>
+                  <div className="feature-check">✓</div>
+                  <span className="feature-text">{f}</span>
                 </div>
               ))}
             </div>
-
-            <CTAButton large />
-
-            <p className="text-xs text-white/30 mt-5">
-              Secure checkout via Lemon Squeezy · Instant delivery
-            </p>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-24">
-        <h2 className="text-3xl font-black text-center mb-12">
-          Frequently asked questions
-        </h2>
-        <div className="space-y-6">
-          {faqs.map((faq) => (
+      <section>
+        <div className="section-tag">FAQ</div>
+        <div className="section-title">
+          COMMON
+          <br />
+          QUESTIONS
+        </div>
+        <div className="faq-list">
+          {faqs.map((faq, i) => (
             <div
-              key={faq.q}
-              className="gradient-border rounded-xl bg-white/[0.03] p-6"
+              className="faq-item"
+              key={i}
+              ref={(el) => { faqRefs.current[i] = el; }}
             >
-              <h3 className="font-bold text-white mb-2">{faq.q}</h3>
-              <p className="text-white/55 text-sm leading-relaxed">{faq.a}</p>
+              <button
+                className="faq-q"
+                onClick={() => toggleFAQ(i)}
+                type="button"
+              >
+                {faq.q}
+                <span className="faq-icon">+</span>
+              </button>
+              <div className="faq-a">
+                <div className="faq-a-inner">{faq.a}</div>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative z-10 border-t border-white/5 bg-gradient-to-b from-transparent to-violet-950/20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-24 text-center">
-          <h2 className="text-3xl sm:text-5xl font-black mb-6 leading-tight">
-            Your app deserves{" "}
-            <span className="gradient-text">10,000 users</span>.
-            <br />
-            Let&apos;s get them.
-          </h2>
-          <p className="text-white/50 mb-10 max-w-lg mx-auto">
-            Stop waiting for word of mouth. One proven system. Zero ad spend.
-            Real users.
-          </p>
-          <CTAButton large />
+      {/* FINAL CTA */}
+      <section className="final-cta-section">
+        <div className="section-tag" style={{ justifyContent: "center" }}>
+          Final Word
         </div>
+        <div className="section-title">
+          YOUR APP DESERVES
+          <br />
+          10,000 USERS.
+        </div>
+        <p
+          style={{
+            color: "var(--warm-grey)",
+            fontSize: 15,
+            maxWidth: 500,
+            margin: "0 auto 40px",
+            lineHeight: 1.7,
+          }}
+        >
+          Stop waiting for word of mouth. One proven system. Zero ad spend. Real
+          users. The system is live and working right now.
+        </p>
+        <a
+          className="btn-primary"
+          href={CHECKOUT_URL}
+          style={{
+            display: "inline-flex",
+            gap: 20,
+            fontSize: 15,
+            padding: "22px 40px",
+          }}
+        >
+          Get Instant Access, $149
+          <span className="arrow">→</span>
+        </a>
+        <p className="btn-sub" style={{ marginTop: 16 }}>
+          One-time · No subscription · Lifetime access
+        </p>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-white/5">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/30">
-          <span className="font-semibold gradient-text">TikTok Launch System</span>
-          <span>© {new Date().getFullYear()} · All rights reserved</span>
-        </div>
+      {/* FOOTER */}
+      <footer>
+        <a className="footer-logo" href="#">
+          TIKTOK<span>.</span>LAUNCH
+        </a>
+        <span className="footer-copy">© 2026 · All rights reserved</span>
       </footer>
-    </main>
+    </>
   );
 }

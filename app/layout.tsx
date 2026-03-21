@@ -1,42 +1,43 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bebas_Neue, DM_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bebasNeue = Bebas_Neue({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const dmMono = DM_Mono({
+  weight: ["400", "500"],
   subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "TikTok Launch System — 0 to 10K Users, $0 Ad Spend",
   description:
-    "The proven system app founders use to go from 0 to 10,000 real users through TikTok—without spending a dollar on ads. Includes VPN setup, viral content framework, VA playbook, and community.",
-  openGraph: {
-    title: "TikTok Launch System — 0 to 10K Users, $0 Ad Spend",
-    description:
-      "The proven system app founders use to go from 0 to 10,000 real users through TikTok—without spending a dollar on ads.",
-    type: "website",
-  },
+    "The exact TikTok system used to take apps from invisible to thousands of daily downloads. No ads. No tricks. A repeatable content engine you can hand to a VA.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-[#080810] text-[#f0f0f8]">
-        {children}
-      </body>
+    <html lang="en" className={`${bebasNeue.variable} ${dmMono.variable} ${instrumentSerif.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
