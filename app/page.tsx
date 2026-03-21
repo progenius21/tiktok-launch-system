@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const CHECKOUT_URL = "https://tiktoklaunchsystem.lemonsqueezy.com/checkout";
+const CHECKOUT_URL = "https://tiktoklaunch.lemonsqueezy.com/checkout/buy/109afe31-a42b-497f-a2b4-be725540b1b8";
 
 const tickerItems = [
   "Account Warm-Up Protocol",
