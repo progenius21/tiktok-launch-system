@@ -77,6 +77,8 @@ nav {
   text-decoration: none;
   padding: 10px 20px;
   transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
 }
 .nav-cta:hover { opacity: 0.85; }
 
@@ -202,7 +204,10 @@ nav {
   text-decoration: none;
   padding: 18px 28px;
   transition: transform 0.15s, opacity 0.15s;
+  border: none;
+  cursor: pointer;
 }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
 .btn-primary .arrow { font-size: 18px; }
 

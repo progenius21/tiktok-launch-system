@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
-const CHECKOUT_URL = "https://tiktoklaunch.lemonsqueezy.com/checkout/buy/109afe31-a42b-497f-a2b4-be725540b1b8";
+import { useEffect, useRef, useState } from "react";
 
 const tickerItems = [
   "Account Warm-Up Protocol",
@@ -122,6 +120,24 @@ const faqs = [
 
 export default function Home() {
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  async function handleCheckout() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("Checkout error:", data.error);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -162,9 +178,9 @@ export default function Home() {
         <a className="nav-logo" href="#">
           TIKTOK<span>.</span>LAUNCH
         </a>
-        <a className="nav-cta" href={CHECKOUT_URL}>
-          Get Access →
-        </a>
+        <button className="nav-cta" onClick={handleCheckout} disabled={loading} type="button">
+          {loading ? "Loading..." : "Get Access →"}
+        </button>
       </nav>
 
       {/* HERO */}
@@ -207,11 +223,11 @@ export default function Home() {
               </span>
             </div>
             <div className="hero-cta-group">
-              <a className="btn-primary" href={CHECKOUT_URL}>
-                Get Instant Access
+              <button className="btn-primary" onClick={handleCheckout} disabled={loading} type="button">
+                {loading ? "Redirecting..." : "Get Instant Access"}
                 <span className="arrow">→</span>
-              </a>
-              <span className="btn-sub">Secure checkout via Lemon Squeezy</span>
+              </button>
+              <span className="btn-sub">Secure checkout via Stripe</span>
             </div>
           </div>
         </div>
@@ -379,11 +395,11 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <a className="btn-primary" href={CHECKOUT_URL}>
-                Get Instant Access →
-              </a>
+              <button className="btn-primary" onClick={handleCheckout} disabled={loading} type="button">
+                {loading ? "Redirecting..." : "Get Instant Access →"}
+              </button>
               <p className="btn-sub" style={{ marginTop: 10 }}>
-                Secure checkout via Lemon Squeezy · Instant delivery
+                Secure checkout via Stripe · Instant delivery
               </p>
             </div>
           </div>
@@ -453,9 +469,11 @@ export default function Home() {
           Stop waiting for word of mouth. One proven system. Zero ad spend. Real
           users. The system is live and working right now.
         </p>
-        <a
+        <button
           className="btn-primary"
-          href={CHECKOUT_URL}
+          onClick={handleCheckout}
+          disabled={loading}
+          type="button"
           style={{
             display: "inline-flex",
             gap: 20,
@@ -463,9 +481,9 @@ export default function Home() {
             padding: "22px 40px",
           }}
         >
-          Get Instant Access, $149
+          {loading ? "Redirecting..." : "Get Instant Access, $149"}
           <span className="arrow">→</span>
-        </a>
+        </button>
         <p className="btn-sub" style={{ marginTop: 16 }}>
           One-time · No subscription · Lifetime access
         </p>

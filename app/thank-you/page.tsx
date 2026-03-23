@@ -31,7 +31,14 @@ const steps = [
   },
 ];
 
-export default function ThankYou() {
+interface Props {
+  searchParams: Promise<{ session_id?: string }>;
+}
+
+export default async function ThankYou({ searchParams: _ }: Props) {
+  // session_id is passed by Stripe after successful checkout
+  // it is available in the URL but no verification is needed here
+  // the webhook handles fulfillment
   return (
     <>
       {/* NAV */}
