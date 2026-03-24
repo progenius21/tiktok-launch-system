@@ -63,25 +63,11 @@ const viewCards = [
   { count: "23", unit: "K", type: "Third account", width: "9%" },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "Hit 10K users in 6 weeks. My app was invisible before this. The VPN setup alone unlocked a completely different level of reach.",
-    name: "Alex M.",
-    role: "SaaS Founder",
-  },
-  {
-    quote:
-      "I handed this off to a VA after week 2. Now the channel runs itself and I'm still getting daily installs while I build.",
-    name: "Jordan T.",
-    role: "Indie App Developer",
-  },
-  {
-    quote:
-      "Spent $0 on ads. The slide format works insanely well. One video hit 800K views and converted for weeks.",
-    name: "Sam R.",
-    role: "Mobile App Founder",
-  },
+const resultStats = [
+  { num: "335K+", label: "Organic views across 6 TikTok accounts" },
+  { num: "$0", label: "Spent on paid advertising" },
+  { num: "6", label: "Accounts running the system simultaneously" },
+  { num: "246K", label: "Views on top performing account alone" },
 ];
 
 const features = [
@@ -121,6 +107,28 @@ const faqs = [
 export default function Home() {
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [loading, setLoading] = useState(false);
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [leadLoading, setLeadLoading] = useState(false);
+
+  async function handleLeadCapture(e: React.FormEvent) {
+    e.preventDefault();
+    if (!leadEmail || leadLoading) return;
+    setLeadLoading(true);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: leadEmail }),
+      });
+      if (res.ok) {
+        setLeadSubmitted(true);
+      }
+    } catch (err) {
+      console.error("Lead capture error:", err);
+    }
+    setLeadLoading(false);
+  }
 
   async function handleCheckout() {
     setLoading(true);
@@ -152,7 +160,7 @@ export default function Home() {
     );
 
     document
-      .querySelectorAll(".module-row, .problem-cell, .view-card, .testimonial-card")
+      .querySelectorAll(".module-row, .problem-cell, .view-card, .result-card")
       .forEach((el) => {
         el.classList.add("fade-el");
         observer.observe(el);
@@ -354,25 +362,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* REAL RESULTS */}
       <section>
-        <div className="section-tag">Social Proof</div>
+        <div className="section-tag">Real Results</div>
         <div className="section-title">
-          FOUNDERS
+          THE NUMBERS
           <br />
-          RUNNING THE SYSTEM
+          SPEAK FOR THEMSELVES
         </div>
-        <div className="testimonials-grid">
-          {testimonials.map((t, i) => (
-            <div className="testimonial-card" key={i}>
-              <p className="t-quote">&ldquo;{t.quote}&rdquo;</p>
-              <div className="t-author">
-                <span className="t-name">{t.name}</span>
-                <span className="t-role">{t.role}</span>
-              </div>
+        <div className="results-grid">
+          {resultStats.map((s, i) => (
+            <div className="result-card" key={i}>
+              <div className="result-num">{s.num}</div>
+              <div className="result-label">{s.label}</div>
             </div>
           ))}
         </div>
+        <p className="results-note">
+          All stats from real TikTok accounts running this exact system. No paid promotion. No influencer deals. Pure organic reach.
+        </p>
       </section>
 
       {/* PRICING */}
@@ -445,6 +453,40 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* EMAIL CAPTURE - FREE LEAD MAGNET */}
+      <section className="lead-section">
+        <div className="section-tag">Free Resource</div>
+        <div className="section-title" style={{ fontSize: 28 }}>
+          NOT READY TO BUY?
+          <br />
+          GRAB THE FREE CHECKLIST.
+        </div>
+        <p className="lead-desc">
+          Get the Account Warm-Up Checklist. The exact 3-day protocol to set up
+          a TikTok account that the algorithm actually pushes to the For You
+          page. No spam. Unsubscribe any time.
+        </p>
+        {leadSubmitted ? (
+          <div className="lead-success">
+            Check your inbox. The checklist is on its way.
+          </div>
+        ) : (
+          <form className="lead-form" onSubmit={handleLeadCapture}>
+            <input
+              type="email"
+              placeholder="Your email address"
+              value={leadEmail}
+              onChange={(e) => setLeadEmail(e.target.value)}
+              className="lead-input"
+              required
+            />
+            <button type="submit" className="lead-btn" disabled={leadLoading}>
+              {leadLoading ? "Sending..." : "Send Me the Checklist"}
+            </button>
+          </form>
+        )}
       </section>
 
       {/* FINAL CTA */}
