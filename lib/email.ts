@@ -13,7 +13,7 @@ const FROM_EMAIL =
 const NOTION_URL =
   'https://www.notion.so/32ba77c20e9381c7a9fcf3494e14f8b9';
 
-const COMMUNITY_URL = '#community'; // replace with actual invite link when ready
+const COMMUNITY_URL = 'https://t.me/+Rmp0w4E4y0ZiNDU8';
 
 export async function sendDeliveryEmail(email: string): Promise<void> {
   if (!resend) {
@@ -118,7 +118,7 @@ function buildEmailHTML(
                   <td>
                     <div style="font-size:10px;color:#FF2D55;letter-spacing:0.15em;font-weight:700;margin-bottom:12px;font-family:'Courier New',Courier,monospace;">03 / COMMUNITY</div>
                     <div style="font-size:20px;color:#F2EDE4;font-weight:700;margin-bottom:10px;font-family:'Courier New',Courier,monospace;">Private Founder Community</div>
-                    <p style="margin:0 0 20px 0;font-size:13px;color:#A89F92;line-height:1.6;font-family:'Courier New',Courier,monospace;">Join the founders running the same system. Ask questions, share wins, get direct feedback. No noise.</p>
+                    <p style="margin:0 0 20px 0;font-size:13px;color:#A89F92;line-height:1.6;font-family:'Courier New',Courier,monospace;">Join the private Telegram group. Ask questions, share wins, get direct feedback from founders running the same system.</p>
                     <a href="${communityUrl}" style="display:inline-block;border:1px solid #555;color:#A89F92;font-size:12px;font-weight:700;letter-spacing:0.1em;padding:14px 28px;text-decoration:none;font-family:'Courier New',Courier,monospace;">JOIN COMMUNITY &rarr;</a>
                   </td>
                 </tr>

@@ -18,9 +18,9 @@ const steps = [
   {
     num: "02",
     title: "Join the private founder community",
-    desc: "The invite link is inside your welcome email. Come in, introduce yourself, and tell us what app you are launching. Every founder in there is running the same system.",
-    link: "#community",
-    linkText: "Join the Community →",
+    desc: "Join the private Telegram group. Come in, introduce yourself, and tell us what app you are launching. Every founder in there is running the same system.",
+    link: "https://t.me/+Rmp0w4E4y0ZiNDU8",
+    linkText: "Join the Telegram Community →",
   },
   {
     num: "03",
