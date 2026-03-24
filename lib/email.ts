@@ -8,7 +8,7 @@ const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || 'https://tiktok-launch-system.vercel.app';
 
 const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL || 'noreply@tiktok-launch-system.vercel.app';
+  process.env.RESEND_FROM_EMAIL || 'TikTok Launch System <onboarding@resend.dev>';
 
 const NOTION_URL =
   'https://www.notion.so/32ba77c20e9381c7a9fcf3494e14f8b9';
