@@ -536,7 +536,7 @@ export default function Home() {
         <a className="footer-logo" href="#">
           TIKTOK<span>.</span>LAUNCH
         </a>
-        <span className="footer-copy">© 2026 · All rights reserved</span>
+        <span className="footer-copy">© 2026 · All rights reserved · <a href="/privacy" style={{ color: "inherit", textDecoration: "underline" }}>Privacy Policy</a></span>
       </footer>
     </>
   );
