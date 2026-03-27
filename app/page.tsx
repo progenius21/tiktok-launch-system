@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, FormEvent } from "react";
 const tickerItems = [
   "Account Warm-Up Protocol",
   "KOL Satellite Strategy",
-  "10M+ Organic Views",
+  "335K+ Organic Views",
   "VA Execution Playbook",
   "US Market VPN Setup",
   "$0 Ad Spend",
@@ -27,7 +27,7 @@ const modules = [
   {
     num: "03",
     title: "KOL Satellite Account Strategy",
-    desc: "Build a network of influencer-style accounts that create FOMO and trust around your app. The exact method that hit 10M+ views.",
+    desc: "Build a network of influencer-style accounts that create FOMO and trust around your app. The exact method that generated 335K+ views organically.",
     tag: "Growth Engine",
   },
   {
@@ -57,10 +57,10 @@ const modules = [
 ];
 
 const viewCards = [
-  { count: "1.2", unit: "M", type: "App demo reel", width: "60%" },
-  { count: "2.1", unit: "M", type: "Pain-point hook", width: "100%" },
-  { count: "840", unit: "K", type: "Feature walkthrough", width: "40%" },
-  { count: "670", unit: "K", type: "Founder story", width: "32%" },
+  { count: "246", unit: "K", type: "Top performing account", width: "100%" },
+  { count: "35", unit: "K", type: "Combined smaller accounts", width: "14%" },
+  { count: "31", unit: "K", type: "Second account", width: "13%" },
+  { count: "23", unit: "K", type: "Third account", width: "9%" },
 ];
 
 const realResults = [
@@ -261,7 +261,7 @@ export default function Home() {
           </div>
           <div className="proof-item">
             <span className="proof-num">
-              10<span className="unit">M+</span>
+              335<span className="unit">K+</span>
             </span>
             <span className="proof-label">Views generated organically</span>
           </div>

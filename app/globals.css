@@ -426,43 +426,107 @@ section {
 }
 @keyframes barFill { from { width: 0; } }
 
-/* TESTIMONIALS */
-.testimonials-grid {
+/* REAL RESULTS */
+.results-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--border);
   border: 1px solid var(--border);
   margin-top: 60px;
 }
 
-.testimonial-card {
+.result-card {
   background: var(--black);
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 48px 32px;
+  text-align: center;
 }
 
-.t-quote {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 17px;
+.result-num {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.result-label {
+  font-size: 13px;
+  color: var(--warm-grey);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.results-note {
+  text-align: center;
+  color: var(--warm-grey);
+  font-size: 13px;
+  margin-top: 32px;
   line-height: 1.6;
-  color: var(--off-white);
-  flex: 1;
 }
 
-.t-author {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-top: 16px;
+/* EMAIL CAPTURE */
+.lead-section {
+  text-align: center;
+  padding: 80px 20px;
   border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
-.t-name { font-size: 12px; font-weight: 500; color: var(--off-white); letter-spacing: 0.06em; }
-.t-role { font-size: 11px; color: var(--warm-grey); }
+.lead-desc {
+  color: var(--warm-grey);
+  font-size: 15px;
+  max-width: 500px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+.lead-form {
+  display: flex;
+  gap: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+}
+
+.lead-input {
+  flex: 1;
+  background: var(--black);
+  border: none;
+  padding: 16px 20px;
+  color: var(--off-white);
+  font-size: 14px;
+  font-family: var(--font-mono);
+  outline: none;
+}
+
+.lead-input::placeholder {
+  color: var(--warm-grey);
+}
+
+.lead-btn {
+  background: var(--accent);
+  color: var(--off-white);
+  border: none;
+  padding: 16px 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.lead-btn:hover { opacity: 0.85; }
+.lead-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.lead-success {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
 
 /* PRICING */
 .pricing-wrapper {
