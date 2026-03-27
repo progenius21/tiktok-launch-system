@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, FormEvent } from "react";
 
 const tickerItems = [
   "Account Warm-Up Protocol",
@@ -63,25 +63,11 @@ const viewCards = [
   { count: "670", unit: "K", type: "Founder story", width: "32%" },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "Hit 10K users in 6 weeks. My app was invisible before this. The VPN setup alone unlocked a completely different level of reach.",
-    name: "Alex M.",
-    role: "SaaS Founder",
-  },
-  {
-    quote:
-      "I handed this off to a VA after week 2. Now the channel runs itself and I'm still getting daily installs while I build.",
-    name: "Jordan T.",
-    role: "Indie App Developer",
-  },
-  {
-    quote:
-      "Spent $0 on ads. The slide format works insanely well. One video hit 800K views and converted for weeks.",
-    name: "Sam R.",
-    role: "Mobile App Founder",
-  },
+const realResults = [
+  { num: "335K+", label: "Total Views" },
+  { num: "$0", label: "Ad Spend" },
+  { num: "6", label: "Active Accounts" },
+  { num: "246K+", label: "Organic Reach" },
 ];
 
 const features = [
@@ -121,6 +107,10 @@ const faqs = [
 export default function Home() {
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [loading, setLoading] = useState(false);
+  const [leadEmail, setLeadEmail] = useState('');
+  const [leadLoading, setLeadLoading] = useState(false);
+  const [leadSuccess, setLeadSuccess] = useState(false);
+  const [leadError, setLeadError] = useState('');
 
   async function handleCheckout() {
     setLoading(true);
@@ -139,6 +129,30 @@ export default function Home() {
     }
   }
 
+  async function handleLead(e: FormEvent) {
+    e.preventDefault();
+    if (!leadEmail) return;
+    setLeadLoading(true);
+    setLeadError('');
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: leadEmail }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setLeadSuccess(true);
+      } else {
+        setLeadError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setLeadError('Network error. Please try again.');
+    } finally {
+      setLeadLoading(false);
+    }
+  }
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -152,7 +166,7 @@ export default function Home() {
     );
 
     document
-      .querySelectorAll(".module-row, .problem-cell, .view-card, .testimonial-card")
+      .querySelectorAll(".module-row, .problem-cell, .view-card, .result-card")
       .forEach((el) => {
         el.classList.add("fade-el");
         observer.observe(el);
@@ -354,25 +368,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* REAL RESULTS */}
       <section>
-        <div className="section-tag">Social Proof</div>
+        <div className="section-tag">Real Results</div>
         <div className="section-title">
-          FOUNDERS
+          NUMBERS
           <br />
-          RUNNING THE SYSTEM
+          DON&apos;T LIE.
         </div>
-        <div className="testimonials-grid">
-          {testimonials.map((t, i) => (
-            <div className="testimonial-card" key={i}>
-              <p className="t-quote">&ldquo;{t.quote}&rdquo;</p>
-              <div className="t-author">
-                <span className="t-name">{t.name}</span>
-                <span className="t-role">{t.role}</span>
-              </div>
+        <div className="results-grid">
+          {realResults.map((r, i) => (
+            <div className="result-card" key={i}>
+              <div className="result-num">{r.num}</div>
+              <div className="result-label">{r.label}</div>
             </div>
           ))}
         </div>
+        <p className="results-note">
+          Tracked across active accounts running the system with zero paid promotion.
+        </p>
       </section>
 
       {/* PRICING */}
@@ -447,6 +461,46 @@ export default function Home() {
         </div>
       </section>
 
+      {/* LEAD CAPTURE */}
+      <section className="lead-section">
+        <div className="section-tag">Free Resource</div>
+        <div className="section-title">
+          GET THE
+          <br />
+          WARM-UP CHECKLIST.
+        </div>
+        <p style={{ color: 'var(--warm-grey)', fontSize: 14, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+          The exact Day 1 to 3 account warm-up protocol. Sent to your inbox
+          instantly. No spam, no fluff.
+        </p>
+        {leadSuccess ? (
+          <div className="lead-success">
+            Checklist sent. Check your inbox.
+          </div>
+        ) : (
+          <form className="lead-form" onSubmit={handleLead}>
+            <input
+              className="lead-input"
+              type="email"
+              placeholder="your@email.com"
+              value={leadEmail}
+              onChange={(e) => setLeadEmail(e.target.value)}
+              required
+            />
+            <button
+              className="lead-btn"
+              type="submit"
+              disabled={leadLoading}
+            >
+              {leadLoading ? 'Sending...' : 'Send Checklist'}
+            </button>
+          </form>
+        )}
+        {leadError && (
+          <p style={{ color: 'var(--accent)', fontSize: 12, marginTop: 12 }}>{leadError}</p>
+        )}
+      </section>
+
       {/* FINAL CTA */}
       <section className="final-cta-section">
         <div className="section-tag" style={{ justifyContent: "center" }}>
@@ -494,7 +548,12 @@ export default function Home() {
         <a className="footer-logo" href="#">
           TIKTOK<span>.</span>LAUNCH
         </a>
-        <span className="footer-copy">© 2026 · All rights reserved</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <a href="/privacy" className="footer-copy" style={{ textDecoration: 'none' }}>
+            Privacy Policy
+          </a>
+          <span className="footer-copy">© 2026 · All rights reserved</span>
+        </div>
       </footer>
     </>
   );
