@@ -107,6 +107,7 @@ const faqs = [
 export default function Home() {
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [loading, setLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
   const [leadEmail, setLeadEmail] = useState('');
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadSuccess, setLeadSuccess] = useState(false);
@@ -114,17 +115,18 @@ export default function Home() {
 
   async function handleCheckout() {
     setLoading(true);
+    setCheckoutError("");
     try {
       const res = await fetch("/api/checkout", { method: "POST" });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
-        console.error("Checkout error:", data.error);
+        setCheckoutError("Something went wrong. Please try again.");
         setLoading(false);
       }
-    } catch (err) {
-      console.error("Checkout error:", err);
+    } catch {
+      setCheckoutError("Network error. Please check your connection and try again.");
       setLoading(false);
     }
   }
@@ -242,6 +244,9 @@ export default function Home() {
                 <span className="arrow">→</span>
               </button>
               <span className="btn-sub">Secure checkout via Stripe</span>
+              {checkoutError && (
+                <span className="checkout-error">{checkoutError}</span>
+              )}
             </div>
           </div>
         </div>
@@ -397,6 +402,15 @@ export default function Home() {
           <br />
           LIFETIME ACCESS.
         </div>
+
+        {/* LIMITED SPOTS BANNER */}
+        <div className="scarcity-banner">
+          <span className="scarcity-dot" />
+          <span className="scarcity-text">
+            Limited to 50 founders per cohort to keep the community high-signal. Spots are filling.
+          </span>
+        </div>
+
         <div className="pricing-wrapper">
           <div className="pricing-left">
             <div>
@@ -415,6 +429,9 @@ export default function Home() {
               <p className="btn-sub" style={{ marginTop: 10 }}>
                 Secure checkout via Stripe · Instant delivery
               </p>
+              {checkoutError && (
+                <p className="checkout-error">{checkoutError}</p>
+              )}
             </div>
           </div>
           <div className="pricing-right">
@@ -511,29 +528,15 @@ export default function Home() {
           <br />
           10,000 USERS.
         </div>
-        <p
-          style={{
-            color: "var(--warm-grey)",
-            fontSize: 15,
-            maxWidth: 500,
-            margin: "0 auto 40px",
-            lineHeight: 1.7,
-          }}
-        >
+        <p className="final-cta-desc">
           Stop waiting for word of mouth. One proven system. Zero ad spend. Real
           users. The system is live and working right now.
         </p>
         <button
-          className="btn-primary"
+          className="btn-primary final-cta-btn"
           onClick={handleCheckout}
           disabled={loading}
           type="button"
-          style={{
-            display: "inline-flex",
-            gap: 20,
-            fontSize: 15,
-            padding: "22px 40px",
-          }}
         >
           {loading ? "Redirecting..." : "Get Instant Access, $149"}
           <span className="arrow">→</span>
@@ -541,6 +544,9 @@ export default function Home() {
         <p className="btn-sub" style={{ marginTop: 16 }}>
           One-time · No subscription · Lifetime access
         </p>
+        {checkoutError && (
+          <p className="checkout-error" style={{ marginTop: 12 }}>{checkoutError}</p>
+        )}
       </section>
 
       {/* FOOTER */}
@@ -548,8 +554,8 @@ export default function Home() {
         <a className="footer-logo" href="#">
           TIKTOK<span>.</span>LAUNCH
         </a>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-          <a href="/privacy" className="footer-copy" style={{ textDecoration: 'none' }}>
+        <div className="footer-links">
+          <a href="/privacy" className="footer-copy footer-privacy-link">
             Privacy Policy
           </a>
           <span className="footer-copy">© 2026 · All rights reserved</span>

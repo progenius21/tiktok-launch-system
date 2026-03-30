@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { stripe } from "@/lib/stripe";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "You're In — TikTok Launch System",
@@ -35,10 +37,23 @@ interface Props {
   searchParams: Promise<{ session_id?: string }>;
 }
 
-export default async function ThankYou({ searchParams: _ }: Props) {
-  // session_id is passed by Stripe after successful checkout
-  // it is available in the URL but no verification is needed here
-  // the webhook handles fulfillment
+export default async function ThankYou({ searchParams }: Props) {
+  const { session_id } = await searchParams;
+
+  // Verify the Stripe session is real and paid
+  if (!session_id || !stripe) {
+    redirect("/");
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    if (session.payment_status !== "paid") {
+      redirect("/");
+    }
+  } catch {
+    redirect("/");
+  }
+
   return (
     <>
       {/* NAV */}
@@ -46,7 +61,7 @@ export default async function ThankYou({ searchParams: _ }: Props) {
         <a className="nav-logo" href="/">
           TIKTOK<span>.</span>LAUNCH
         </a>
-        <a className="nav-cta" href="/">
+        <a className="nav-cta" href="/" style={{ textDecoration: "none" }}>
           Back to Home →
         </a>
       </nav>
@@ -135,16 +150,7 @@ export default async function ThankYou({ searchParams: _ }: Props) {
           <br />
           MODULE 01.
         </div>
-        <p
-          style={{
-            color: "var(--warm-grey)",
-            fontSize: 15,
-            maxWidth: 480,
-            margin: "0 auto 40px",
-            lineHeight: 1.7,
-            textAlign: "center",
-          }}
-        >
+        <p className="ty-reminder-desc">
           The account warm-up is the foundation everything else is built on.
           Skip it and the algorithm will suppress you before you even start.
         </p>

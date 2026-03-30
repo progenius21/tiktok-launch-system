@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { createBrowserClient } from '@/lib/supabase';
 
 const navItems = [
   { href: '/dashboard', label: 'Overview' },
@@ -13,6 +14,12 @@ const navItems = [
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
+  async function handleSignOut() {
+    const supabase = createBrowserClient();
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  }
+
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <aside className="dash-sidebar">
@@ -20,7 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Link href="/" className="nav-logo" style={{ display: 'block', marginBottom: 40 }}>
             TIKTOK<span style={{ color: 'var(--accent)' }}>.</span>LAUNCH
           </Link>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          <nav className="dash-nav">
             {navItems.map((item) => {
               const isActive =
                 item.href === '/dashboard'
@@ -30,19 +37,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <Link
                   key={item.href}
                   href={item.href}
-                  style={{
-                    display: 'block',
-                    padding: '12px 16px',
-                    fontSize: 12,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    color: isActive ? 'var(--off-white)' : 'var(--warm-grey)',
-                    background: isActive ? '#111' : 'transparent',
-                    borderLeft: isActive ? '2px solid var(--accent)' : '2px solid transparent',
-                    transition: 'color 0.2s, background 0.2s',
-                    fontFamily: 'var(--font-mono)',
-                  }}
+                  className={`dash-nav-link${isActive ? ' active' : ''}`}
                 >
                   {item.label}
                 </Link>
@@ -50,8 +45,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             })}
           </nav>
         </div>
-        <div style={{ fontSize: 10, color: 'var(--warm-grey)', letterSpacing: '0.12em' }}>
-          v0.1 Alpha
+        <div className="dash-sidebar-footer">
+          <button
+            type="button"
+            className="dash-signout-btn"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </button>
+          <span className="dash-version">v0.1 Alpha</span>
         </div>
       </aside>
       <main className="dash-main">{children}</main>
