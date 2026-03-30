@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, FormEvent } from "react";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 
 const tickerItems = [
   "Account Warm-Up Protocol",
@@ -102,6 +103,10 @@ const faqs = [
     q: "Is this a one-time payment?",
     a: "Yes. $149 gets you lifetime access to the full system, playbooks, and community. No subscriptions, no upsells, no surprises.",
   },
+  {
+    q: "Is this still working in 2026?",
+    a: "Yes. The system is actively running across multiple accounts right now. TikTok's algorithm still heavily rewards the satellite account structure and slide-format content. The warm-up protocol has been updated to reflect TikTok's current detection patterns. The founders in the community are posting results weekly.",
+  },
 ];
 
 export default function Home() {
@@ -189,8 +194,68 @@ export default function Home() {
 
   const tickerContent = [...tickerItems, ...tickerItems];
 
+  const jsonLdProduct = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "TikTok Launch System",
+    "description": "The exact TikTok system used to take apps from invisible to thousands of daily downloads. No ads. No tricks. A repeatable content engine you can hand to a VA.",
+    "url": "https://tiktok-launch-system.vercel.app",
+    "brand": {
+      "@type": "Brand",
+      "name": "TikTok Launch System"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "149",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://tiktok-launch-system.vercel.app",
+      "priceValidUntil": "2027-12-31"
+    }
+  };
+
+  const jsonLdWebSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TikTok Launch System",
+    "url": "https://tiktok-launch-system.vercel.app",
+    "description": "Organic TikTok growth system for app founders. 0 to 10K users, $0 ad spend.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://tiktok-launch-system.vercel.app/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const jsonLdFAQ = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
   return (
     <>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProduct) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFAQ) }}
+      />
+
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
@@ -613,6 +678,8 @@ export default function Home() {
           <span className="footer-copy">© 2026 · All rights reserved</span>
         </div>
       </footer>
+
+      <ExitIntentPopup />
     </>
   );
 }
