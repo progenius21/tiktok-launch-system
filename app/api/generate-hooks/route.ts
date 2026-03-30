@@ -1,10 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { createServerClient } from '@/lib/supabase';
+import { rateLimit } from '@/lib/rate-limit';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown';
+  const { allowed } = rateLimit(`hooks:${ip}`, { maxRequests: 10, windowMs: 60_000 });
+  if (!allowed) {
+    return NextResponse.json({ error: 'Too many requests. Try again later.' }, { status: 429 });
+  }
+
   try {
     const { niche, count = 10, userId } = await request.json();
 

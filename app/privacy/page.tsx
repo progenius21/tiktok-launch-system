@@ -9,20 +9,24 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <nav>
-        <a className="nav-logo" href="/">
-          TIKTOK<span>.</span>LAUNCH
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a className="nav-logo" href="/" aria-label="TikTok Launch System — Home">
+          TIKTOK<span aria-hidden="true">.</span>LAUNCH
         </a>
       </nav>
 
-      <main style={{ paddingTop: 100, paddingBottom: 120 }}>
-        <section style={{ borderBottom: 'none', maxWidth: 760 }}>
-          <div className="section-tag">Legal</div>
-          <div className="section-title">
+      <main id="main-content" style={{ paddingTop: 100, paddingBottom: 120 }}>
+        <section style={{ borderBottom: 'none', maxWidth: 760 }} aria-labelledby="privacy-heading">
+          <div className="section-tag" aria-hidden="true">Legal</div>
+          <h1 className="section-title" id="privacy-heading">
             PRIVACY
             <br />
             POLICY
-          </div>
+          </h1>
           <p style={{ color: 'var(--warm-grey)', fontSize: 12, letterSpacing: '0.06em', marginBottom: 60 }}>
             Last updated: 27 March 2026
           </p>
@@ -188,9 +192,9 @@ export default function PrivacyPage() {
         </section>
       </main>
 
-      <footer>
-        <a className="footer-logo" href="/">
-          TIKTOK<span>.</span>LAUNCH
+      <footer role="contentinfo">
+        <a className="footer-logo" href="/" aria-label="TikTok Launch System — Home">
+          TIKTOK<span aria-hidden="true">.</span>LAUNCH
         </a>
         <span className="footer-copy">© 2026 · All rights reserved</span>
       </footer>
