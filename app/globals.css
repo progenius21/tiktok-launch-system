@@ -4,6 +4,41 @@
   padding: 0;
 }
 
+/* ─── ACCESSIBILITY UTILITIES ────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  z-index: 200;
+  transition: top 0.2s;
+}
+
+.skip-to-content:focus {
+  top: 16px;
+  outline: 2px solid var(--off-white);
+  outline-offset: 2px;
+}
+
 :root {
   --black: #0A0A0A;
   --off-white: #F2EDE4;
@@ -1605,4 +1640,206 @@ footer {
   footer { padding: 28px 16px; }
   .lead-section { padding: 48px 16px; }
   .login-section { padding: 100px 16px 48px; }
+}
+
+/* ─── FOCUS STYLES ───────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn-primary:focus-visible,
+.nav-cta:focus-visible,
+.lead-btn:focus-visible,
+.dash-btn-primary:focus-visible,
+.dash-btn-outline:focus-visible,
+.dash-signout-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.faq-q:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.nav-logo:focus-visible,
+.footer-logo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.dash-nav-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  background: #111;
+  color: var(--off-white);
+}
+
+.dash-input:focus-visible,
+.lead-input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.login-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hooks-count-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hook-copy-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ─── DASHBOARD PAGE DESCRIPTION ──────────────────────────────── */
+.dash-page-desc {
+  color: var(--warm-grey);
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+
+/* ─── LEAD DESCRIPTION TEXT ───────────────────────────────────── */
+.lead-desc-text {
+  color: var(--warm-grey);
+  font-size: 14px;
+  line-height: 1.75;
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+.lead-error-text {
+  color: var(--accent);
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+/* ─── HOOKS FIELDSET & COUNT BUTTONS ─────────────────────────── */
+.hooks-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hooks-count-group {
+  display: flex;
+  gap: 1px;
+}
+
+.hooks-count-btn {
+  padding: 10px 24px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  border: none;
+  cursor: pointer;
+  background: #1A1A1A;
+  color: var(--warm-grey);
+  transition: background 0.15s, color 0.15s;
+}
+
+.hooks-count-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.hooks-count-btn:hover:not(.active) {
+  background: #222;
+}
+
+/* ─── HOOK TEXT & COPY BUTTON (replaces inline styles) ────────── */
+.hook-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--off-white);
+  margin: 0;
+  flex: 1;
+}
+
+.hook-copy-btn {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.hook-copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ─── PIPELINE LABEL (replaces inline style) ─────────────────── */
+.pipeline-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  font-weight: 400;
+}
+
+/* ─── THANK-YOU STEPS as OL ──────────────────────────────────── */
+ol.ty-steps {
+  list-style: none;
+  padding: 0;
+}
+
+/* ─── PRICING FEATURES as UL ─────────────────────────────────── */
+ul.pricing-features {
+  list-style: none;
+  padding: 0;
+}
+
+/* ─── HOOKS LIST as UL ───────────────────────────────────────── */
+ul.hooks-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* ─── PREFERS REDUCED MOTION ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ticker-track {
+    animation: none !important;
+  }
+
+  .fade-el {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }

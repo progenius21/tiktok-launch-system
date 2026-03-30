@@ -106,6 +106,7 @@ const faqs = [
 
 export default function Home() {
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
   const [leadEmail, setLeadEmail] = useState('');
@@ -180,6 +181,7 @@ export default function Home() {
   function toggleFAQ(index: number) {
     const item = faqRefs.current[index];
     if (!item) return;
+    setOpenFAQ(openFAQ === index ? null : index);
     const isOpen = item.classList.contains("open");
     faqRefs.current.forEach((el) => el?.classList.remove("open"));
     if (!isOpen) item.classList.add("open");
@@ -189,370 +191,420 @@ export default function Home() {
 
   return (
     <>
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+
       {/* NAV */}
-      <nav>
-        <a className="nav-logo" href="#">
-          TIKTOK<span>.</span>LAUNCH
+      <nav aria-label="Main navigation">
+        <a className="nav-logo" href="/" aria-label="TikTok Launch System — Home">
+          TIKTOK<span aria-hidden="true">.</span>LAUNCH
         </a>
-        <button className="nav-cta" onClick={handleCheckout} disabled={loading} type="button">
+        <button
+          className="nav-cta"
+          onClick={handleCheckout}
+          disabled={loading}
+          type="button"
+          aria-busy={loading}
+        >
           {loading ? "Loading..." : "Get Access →"}
         </button>
       </nav>
 
-      {/* HERO */}
-      <section className="hero" style={{ paddingBottom: 0 }}>
-        <div className="hero-ticker">
-          <div className="ticker-track">
-            {tickerContent.map((item, i) => (
-              <span key={i}>
-                <span className="ticker-item">{item}</span>
-                <span className="ticker-dot" style={{ marginLeft: 60 }}>■</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="hero-body">
-          <div>
-            <div className="hero-headline">
-              0 TO
-              <br />
-              10,000
-              <br />
-              <span className="accent-line">users.</span>
-              ZERO
-              <br />
-              AD SPEND.
-            </div>
-          </div>
-          <div className="hero-right">
-            <p className="hero-desc">
-              The exact TikTok system used to take apps from invisible to
-              thousands of daily downloads. No ads. No tricks. A repeatable
-              content engine you can hand to a VA.
-            </p>
-            <div className="hero-price-block">
-              <span className="price-label">One-time investment</span>
-              <span className="price-num">$149</span>
-              <span className="price-sub">
-                Lifetime access · Instant delivery · No subscription
-              </span>
-            </div>
-            <div className="hero-cta-group">
-              <button className="btn-primary" onClick={handleCheckout} disabled={loading} type="button">
-                {loading ? "Redirecting..." : "Get Instant Access"}
-                <span className="arrow">→</span>
-              </button>
-              <span className="btn-sub">Secure checkout via Stripe</span>
-              {checkoutError && (
-                <span className="checkout-error">{checkoutError}</span>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="proof-bar">
-          <div className="proof-item">
-            <span className="proof-num">
-              10<span className="unit">K+</span>
-            </span>
-            <span className="proof-label">Users from a single channel</span>
-          </div>
-          <div className="proof-item">
-            <span className="proof-num">
-              $<span className="unit">0</span>
-            </span>
-            <span className="proof-label">Paid to any ad network</span>
-          </div>
-          <div className="proof-item">
-            <span className="proof-num">
-              335<span className="unit">K+</span>
-            </span>
-            <span className="proof-label">Views generated organically</span>
-          </div>
-          <div className="proof-item">
-            <span className="proof-num">1</span>
-            <span className="proof-label">System. Repeatable on any app.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* PROBLEM */}
-      <section>
-        <div className="section-tag">The Problem</div>
-        <div className="section-title">
-          YOU BUILT
-          <br />
-          SOMETHING GREAT.
-          <br />
-          NOBODY KNOWS IT.
-        </div>
-        <div className="problem-grid">
-          <div className="problem-cell">
-            <span className="cell-num">01</span>
-            <div className="cell-title">Organic search is too slow</div>
-            <p className="cell-body">
-              SEO takes months. By the time you rank, your runway is gone. You
-              need users now, not in six months.
-            </p>
-          </div>
-          <div className="problem-cell highlight">
-            <span className="cell-num">02</span>
-            <div className="cell-title">Paid ads burn cash fast</div>
-            <p className="cell-body">
-              Facebook and Google CAC is brutal for early-stage apps. You're
-              competing against funded companies with infinite budgets.
-            </p>
-          </div>
-          <div className="problem-cell highlight">
-            <span className="cell-num">03</span>
-            <div className="cell-title">Cold outreach doesn't scale</div>
-            <p className="cell-body">
-              Manual DMs and emails get you a trickle. You need a system that
-              compounds, not one that depends on your time every day.
-            </p>
-          </div>
-          <div className="problem-cell">
-            <span className="cell-num">04</span>
-            <div className="cell-title">Meanwhile, someone else wins</div>
-            <p className="cell-body">
-              A founder with the exact same type of app is pulling millions of
-              TikTok views and stacking downloads weekly. The difference isn't
-              luck. It's a system.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* VIEW COUNTS */}
-      <section>
-        <div className="section-tag">Proof It Works</div>
-        <div className="section-title">
-          REAL NUMBERS
-          <br />
-          FROM THE SYSTEM
-        </div>
-        <div className="views-strip">
-          {viewCards.map((card, i) => (
-            <div className="view-card" key={i}>
-              <span className="view-count">
-                {card.count}
-                <span className="unit">{card.unit}</span>
-              </span>
-              <span className="view-type">{card.type}</span>
-              <div className="view-bar">
-                <div
-                  className="view-bar-fill"
-                  style={{ width: card.width }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* MODULES */}
-      <section>
-        <div className="section-tag">What's Inside</div>
-        <div className="section-title">
-          THE COMPLETE
-          <br />
-          OPERATING SYSTEM
-        </div>
-        <div className="modules-list">
-          {modules.map((mod, i) => (
-            <div className="module-row" key={i}>
-              <span className="module-num">{mod.num}</span>
-              <div className="module-info">
-                <div className="module-title">{mod.title}</div>
-                <div className="module-desc">{mod.desc}</div>
-              </div>
-              <span className="module-tag">{mod.tag}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* REAL RESULTS */}
-      <section>
-        <div className="section-tag">Real Results</div>
-        <div className="section-title">
-          NUMBERS
-          <br />
-          DON&apos;T LIE.
-        </div>
-        <div className="results-grid">
-          {realResults.map((r, i) => (
-            <div className="result-card" key={i}>
-              <div className="result-num">{r.num}</div>
-              <div className="result-label">{r.label}</div>
-            </div>
-          ))}
-        </div>
-        <p className="results-note">
-          Tracked across active accounts running the system with zero paid promotion.
-        </p>
-      </section>
-
-      {/* PRICING */}
-      <section>
-        <div className="section-tag">Pricing</div>
-        <div className="section-title">
-          ONE PRICE.
-          <br />
-          LIFETIME ACCESS.
-        </div>
-
-        {/* LIMITED SPOTS BANNER */}
-        <div className="scarcity-banner">
-          <span className="scarcity-dot" />
-          <span className="scarcity-text">
-            Limited to 50 founders per cohort to keep the community high-signal. Spots are filling.
-          </span>
-        </div>
-
-        <div className="pricing-wrapper">
-          <div className="pricing-left">
-            <div>
-              <div className="pricing-big-num">
-                <span className="dollar">$</span>149
-              </div>
-              <p className="pricing-desc" style={{ marginTop: 16 }}>
-                One-time payment. No subscription. No upsells. The $149 pays for
-                itself the moment your first 100 users convert into subscribers.
-              </p>
-            </div>
-            <div>
-              <button className="btn-primary" onClick={handleCheckout} disabled={loading} type="button">
-                {loading ? "Redirecting..." : "Get Instant Access →"}
-              </button>
-              <p className="btn-sub" style={{ marginTop: 10 }}>
-                Secure checkout via Stripe · Instant delivery
-              </p>
-              {checkoutError && (
-                <p className="checkout-error">{checkoutError}</p>
-              )}
-            </div>
-          </div>
-          <div className="pricing-right">
-            <div className="pricing-features">
-              {features.map((f, i) => (
-                <div className="feature-row" key={i}>
-                  <div className="feature-check">✓</div>
-                  <span className="feature-text">{f}</span>
-                </div>
+      <main id="main-content">
+        {/* HERO */}
+        <section className="hero" style={{ paddingBottom: 0 }}>
+          <div className="hero-ticker" aria-hidden="true">
+            <div className="ticker-track">
+              {tickerContent.map((item, i) => (
+                <span key={i}>
+                  <span className="ticker-item">{item}</span>
+                  <span className="ticker-dot" style={{ marginLeft: 60 }}>■</span>
+                </span>
               ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* FAQ */}
-      <section>
-        <div className="section-tag">FAQ</div>
-        <div className="section-title">
-          COMMON
-          <br />
-          QUESTIONS
-        </div>
-        <div className="faq-list">
-          {faqs.map((faq, i) => (
-            <div
-              className="faq-item"
-              key={i}
-              ref={(el) => { faqRefs.current[i] = el; }}
-            >
-              <button
-                className="faq-q"
-                onClick={() => toggleFAQ(i)}
-                type="button"
-              >
-                {faq.q}
-                <span className="faq-icon">+</span>
-              </button>
-              <div className="faq-a">
-                <div className="faq-a-inner">{faq.a}</div>
+          <div className="hero-body">
+            <div>
+              <h1 className="hero-headline">
+                0 TO
+                <br />
+                10,000
+                <br />
+                <span className="accent-line">users.</span>
+                ZERO
+                <br />
+                AD SPEND.
+              </h1>
+            </div>
+            <div className="hero-right">
+              <p className="hero-desc">
+                The exact TikTok system used to take apps from invisible to
+                thousands of daily downloads. No ads. No tricks. A repeatable
+                content engine you can hand to a VA.
+              </p>
+              <div className="hero-price-block">
+                <span className="price-label">One-time investment</span>
+                <span className="price-num" aria-label="$149">$149</span>
+                <span className="price-sub">
+                  Lifetime access · Instant delivery · No subscription
+                </span>
+              </div>
+              <div className="hero-cta-group">
+                <button
+                  className="btn-primary"
+                  onClick={handleCheckout}
+                  disabled={loading}
+                  type="button"
+                  aria-busy={loading}
+                  aria-label={loading ? "Redirecting to checkout" : "Get instant access to TikTok Launch System"}
+                >
+                  {loading ? "Redirecting..." : "Get Instant Access"}
+                  <span className="arrow" aria-hidden="true">→</span>
+                </button>
+                <span className="btn-sub">Secure checkout via Stripe</span>
+                {checkoutError && (
+                  <span className="checkout-error" role="alert" aria-live="assertive">
+                    {checkoutError}
+                  </span>
+                )}
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* LEAD CAPTURE */}
-      <section className="lead-section">
-        <div className="section-tag">Free Resource</div>
-        <div className="section-title">
-          GET THE
-          <br />
-          WARM-UP CHECKLIST.
-        </div>
-        <p style={{ color: 'var(--warm-grey)', fontSize: 14, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-          The exact Day 1 to 3 account warm-up protocol. Sent to your inbox
-          instantly. No spam, no fluff.
-        </p>
-        {leadSuccess ? (
-          <div className="lead-success">
-            Checklist sent. Check your inbox.
           </div>
-        ) : (
-          <form className="lead-form" onSubmit={handleLead}>
-            <input
-              className="lead-input"
-              type="email"
-              placeholder="your@email.com"
-              value={leadEmail}
-              onChange={(e) => setLeadEmail(e.target.value)}
-              required
-            />
-            <button
-              className="lead-btn"
-              type="submit"
-              disabled={leadLoading}
-            >
-              {leadLoading ? 'Sending...' : 'Send Checklist'}
-            </button>
-          </form>
-        )}
-        {leadError && (
-          <p style={{ color: 'var(--accent)', fontSize: 12, marginTop: 12 }}>{leadError}</p>
-        )}
-      </section>
 
-      {/* FINAL CTA */}
-      <section className="final-cta-section">
-        <div className="section-tag" style={{ justifyContent: "center" }}>
-          Final Word
-        </div>
-        <div className="section-title">
-          YOUR APP DESERVES
-          <br />
-          10,000 USERS.
-        </div>
-        <p className="final-cta-desc">
-          Stop waiting for word of mouth. One proven system. Zero ad spend. Real
-          users. The system is live and working right now.
-        </p>
-        <button
-          className="btn-primary final-cta-btn"
-          onClick={handleCheckout}
-          disabled={loading}
-          type="button"
-        >
-          {loading ? "Redirecting..." : "Get Instant Access, $149"}
-          <span className="arrow">→</span>
-        </button>
-        <p className="btn-sub" style={{ marginTop: 16 }}>
-          One-time · No subscription · Lifetime access
-        </p>
-        {checkoutError && (
-          <p className="checkout-error" style={{ marginTop: 12 }}>{checkoutError}</p>
-        )}
-      </section>
+          <div className="proof-bar" role="list" aria-label="Key results">
+            <div className="proof-item" role="listitem">
+              <span className="proof-num">
+                10<span className="unit" aria-hidden="true">K+</span>
+              </span>
+              <span className="proof-label">Users from a single channel</span>
+            </div>
+            <div className="proof-item" role="listitem">
+              <span className="proof-num">
+                $<span className="unit" aria-hidden="true">0</span>
+              </span>
+              <span className="proof-label">Paid to any ad network</span>
+            </div>
+            <div className="proof-item" role="listitem">
+              <span className="proof-num">
+                335<span className="unit" aria-hidden="true">K+</span>
+              </span>
+              <span className="proof-label">Views generated organically</span>
+            </div>
+            <div className="proof-item" role="listitem">
+              <span className="proof-num">1</span>
+              <span className="proof-label">System. Repeatable on any app.</span>
+            </div>
+          </div>
+        </section>
+
+        {/* PROBLEM */}
+        <section aria-labelledby="problem-heading">
+          <div className="section-tag" aria-hidden="true">The Problem</div>
+          <h2 className="section-title" id="problem-heading">
+            YOU BUILT
+            <br />
+            SOMETHING GREAT.
+            <br />
+            NOBODY KNOWS IT.
+          </h2>
+          <div className="problem-grid" role="list">
+            <div className="problem-cell" role="listitem">
+              <span className="cell-num" aria-hidden="true">01</span>
+              <h3 className="cell-title">Organic search is too slow</h3>
+              <p className="cell-body">
+                SEO takes months. By the time you rank, your runway is gone. You
+                need users now, not in six months.
+              </p>
+            </div>
+            <div className="problem-cell highlight" role="listitem">
+              <span className="cell-num" aria-hidden="true">02</span>
+              <h3 className="cell-title">Paid ads burn cash fast</h3>
+              <p className="cell-body">
+                Facebook and Google CAC is brutal for early-stage apps. You&apos;re
+                competing against funded companies with infinite budgets.
+              </p>
+            </div>
+            <div className="problem-cell highlight" role="listitem">
+              <span className="cell-num" aria-hidden="true">03</span>
+              <h3 className="cell-title">Cold outreach doesn&apos;t scale</h3>
+              <p className="cell-body">
+                Manual DMs and emails get you a trickle. You need a system that
+                compounds, not one that depends on your time every day.
+              </p>
+            </div>
+            <div className="problem-cell" role="listitem">
+              <span className="cell-num" aria-hidden="true">04</span>
+              <h3 className="cell-title">Meanwhile, someone else wins</h3>
+              <p className="cell-body">
+                A founder with the exact same type of app is pulling millions of
+                TikTok views and stacking downloads weekly. The difference isn&apos;t
+                luck. It&apos;s a system.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* VIEW COUNTS */}
+        <section aria-labelledby="proof-heading">
+          <div className="section-tag" aria-hidden="true">Proof It Works</div>
+          <h2 className="section-title" id="proof-heading">
+            REAL NUMBERS
+            <br />
+            FROM THE SYSTEM
+          </h2>
+          <div className="views-strip" role="list" aria-label="View counts by account">
+            {viewCards.map((card, i) => (
+              <div className="view-card" key={i} role="listitem">
+                <span className="view-count" aria-label={`${card.count}${card.unit} views`}>
+                  {card.count}
+                  <span className="unit" aria-hidden="true">{card.unit}</span>
+                </span>
+                <span className="view-type">{card.type}</span>
+                <div className="view-bar" role="img" aria-label={`${card.width} of total views`}>
+                  <div
+                    className="view-bar-fill"
+                    style={{ width: card.width }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* MODULES */}
+        <section aria-labelledby="modules-heading">
+          <div className="section-tag" aria-hidden="true">What&apos;s Inside</div>
+          <h2 className="section-title" id="modules-heading">
+            THE COMPLETE
+            <br />
+            OPERATING SYSTEM
+          </h2>
+          <div className="modules-list" role="list">
+            {modules.map((mod, i) => (
+              <div className="module-row" key={i} role="listitem">
+                <span className="module-num" aria-hidden="true">{mod.num}</span>
+                <div className="module-info">
+                  <h3 className="module-title">{mod.title}</h3>
+                  <div className="module-desc">{mod.desc}</div>
+                </div>
+                <span className="module-tag" aria-label={`Category: ${mod.tag}`}>{mod.tag}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* REAL RESULTS */}
+        <section aria-labelledby="results-heading">
+          <div className="section-tag" aria-hidden="true">Real Results</div>
+          <h2 className="section-title" id="results-heading">
+            NUMBERS
+            <br />
+            DON&apos;T LIE.
+          </h2>
+          <div className="results-grid" role="list" aria-label="Results summary">
+            {realResults.map((r, i) => (
+              <div className="result-card" key={i} role="listitem">
+                <div className="result-num">{r.num}</div>
+                <div className="result-label">{r.label}</div>
+              </div>
+            ))}
+          </div>
+          <p className="results-note">
+            Tracked across active accounts running the system with zero paid promotion.
+          </p>
+        </section>
+
+        {/* PRICING */}
+        <section aria-labelledby="pricing-heading">
+          <div className="section-tag" aria-hidden="true">Pricing</div>
+          <h2 className="section-title" id="pricing-heading">
+            ONE PRICE.
+            <br />
+            LIFETIME ACCESS.
+          </h2>
+
+          {/* LIMITED SPOTS BANNER */}
+          <div className="scarcity-banner" role="status">
+            <span className="scarcity-dot" aria-hidden="true" />
+            <span className="scarcity-text">
+              Limited to 50 founders per cohort to keep the community high-signal. Spots are filling.
+            </span>
+          </div>
+
+          <div className="pricing-wrapper">
+            <div className="pricing-left">
+              <div>
+                <div className="pricing-big-num" aria-label="$149">
+                  <span className="dollar" aria-hidden="true">$</span>149
+                </div>
+                <p className="pricing-desc" style={{ marginTop: 16 }}>
+                  One-time payment. No subscription. No upsells. The $149 pays for
+                  itself the moment your first 100 users convert into subscribers.
+                </p>
+              </div>
+              <div>
+                <button
+                  className="btn-primary"
+                  onClick={handleCheckout}
+                  disabled={loading}
+                  type="button"
+                  aria-busy={loading}
+                >
+                  {loading ? "Redirecting..." : "Get Instant Access →"}
+                </button>
+                <p className="btn-sub" style={{ marginTop: 10 }}>
+                  Secure checkout via Stripe · Instant delivery
+                </p>
+                {checkoutError && (
+                  <p className="checkout-error" role="alert" aria-live="assertive">
+                    {checkoutError}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="pricing-right">
+              <ul className="pricing-features" aria-label="What's included">
+                {features.map((f, i) => (
+                  <li className="feature-row" key={i}>
+                    <span className="feature-check" aria-hidden="true">✓</span>
+                    <span className="feature-text">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section aria-labelledby="faq-heading">
+          <div className="section-tag" aria-hidden="true">FAQ</div>
+          <h2 className="section-title" id="faq-heading">
+            COMMON
+            <br />
+            QUESTIONS
+          </h2>
+          <div className="faq-list">
+            {faqs.map((faq, i) => (
+              <div
+                className="faq-item"
+                key={i}
+                ref={(el) => { faqRefs.current[i] = el; }}
+              >
+                <button
+                  className="faq-q"
+                  onClick={() => toggleFAQ(i)}
+                  type="button"
+                  aria-expanded={openFAQ === i}
+                  aria-controls={`faq-answer-${i}`}
+                >
+                  {faq.q}
+                  <span className="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div
+                  className="faq-a"
+                  id={`faq-answer-${i}`}
+                  role="region"
+                  aria-labelledby={`faq-q-${i}`}
+                >
+                  <div className="faq-a-inner">{faq.a}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* LEAD CAPTURE */}
+        <section className="lead-section" aria-labelledby="lead-heading">
+          <div className="section-tag" aria-hidden="true">Free Resource</div>
+          <h2 className="section-title" id="lead-heading">
+            GET THE
+            <br />
+            WARM-UP CHECKLIST.
+          </h2>
+          <p className="lead-desc-text">
+            The exact Day 1 to 3 account warm-up protocol. Sent to your inbox
+            instantly. No spam, no fluff.
+          </p>
+          {leadSuccess ? (
+            <div className="lead-success" role="status" aria-live="polite">
+              Checklist sent. Check your inbox.
+            </div>
+          ) : (
+            <form className="lead-form" onSubmit={handleLead} aria-label="Get the warm-up checklist">
+              <label htmlFor="lead-email" className="sr-only">Email address</label>
+              <input
+                id="lead-email"
+                className="lead-input"
+                type="email"
+                placeholder="your@email.com"
+                value={leadEmail}
+                onChange={(e) => setLeadEmail(e.target.value)}
+                required
+                aria-describedby={leadError ? "lead-error" : undefined}
+              />
+              <button
+                className="lead-btn"
+                type="submit"
+                disabled={leadLoading}
+                aria-busy={leadLoading}
+              >
+                {leadLoading ? 'Sending...' : 'Send Checklist'}
+              </button>
+            </form>
+          )}
+          {leadError && (
+            <p
+              id="lead-error"
+              className="lead-error-text"
+              role="alert"
+              aria-live="assertive"
+            >
+              {leadError}
+            </p>
+          )}
+        </section>
+
+        {/* FINAL CTA */}
+        <section className="final-cta-section" aria-labelledby="cta-heading">
+          <div className="section-tag" style={{ justifyContent: "center" }} aria-hidden="true">
+            Final Word
+          </div>
+          <h2 className="section-title" id="cta-heading">
+            YOUR APP DESERVES
+            <br />
+            10,000 USERS.
+          </h2>
+          <p className="final-cta-desc">
+            Stop waiting for word of mouth. One proven system. Zero ad spend. Real
+            users. The system is live and working right now.
+          </p>
+          <button
+            className="btn-primary final-cta-btn"
+            onClick={handleCheckout}
+            disabled={loading}
+            type="button"
+            aria-busy={loading}
+          >
+            {loading ? "Redirecting..." : "Get Instant Access, $149"}
+            <span className="arrow" aria-hidden="true">→</span>
+          </button>
+          <p className="btn-sub" style={{ marginTop: 16 }}>
+            One-time · No subscription · Lifetime access
+          </p>
+          {checkoutError && (
+            <p className="checkout-error" role="alert" aria-live="assertive" style={{ marginTop: 12 }}>
+              {checkoutError}
+            </p>
+          )}
+        </section>
+      </main>
 
       {/* FOOTER */}
-      <footer>
-        <a className="footer-logo" href="#">
-          TIKTOK<span>.</span>LAUNCH
+      <footer role="contentinfo">
+        <a className="footer-logo" href="/" aria-label="TikTok Launch System — Home">
+          TIKTOK<span aria-hidden="true">.</span>LAUNCH
         </a>
         <div className="footer-links">
           <a href="/privacy" className="footer-copy footer-privacy-link">
