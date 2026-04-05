@@ -3,8 +3,6 @@ import Anthropic from '@anthropic-ai/sdk';
 import { createServerClient } from '@/lib/supabase';
 import { rateLimit } from '@/lib/rate-limit';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
 export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown';
   const { allowed } = rateLimit(`hooks:${ip}`, { maxRequests: 10, windowMs: 60_000 });
@@ -20,7 +18,15 @@ export async function POST(request: NextRequest) {
     }
 
     const validCount = Math.min(Math.max(Number(count) || 10, 5), 20);
+    const apiKey = process.env.ANTHROPIC_API_KEY?.trim() ?? '';
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'Hook generator is temporarily unavailable. AI service is not configured.' },
+        { status: 503 }
+      );
+    }
 
+    const client = new Anthropic({ apiKey });
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
@@ -68,6 +74,14 @@ Rules:
 
     return NextResponse.json({ hooks });
   } catch (err) {
+    if (err instanceof Anthropic.APIError && err.status === 401) {
+      console.error('Anthropic authentication failed for hooks API:', err.message);
+      return NextResponse.json(
+        { error: 'Hook generator is temporarily unavailable. AI credentials need updating.' },
+        { status: 503 }
+      );
+    }
+
     console.error('Generate hooks error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

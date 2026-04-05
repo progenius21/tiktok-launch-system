@@ -4,7 +4,7 @@
 
 A Next.js 16 (App Router) marketing site + SaaS dashboard for selling a $149 TikTok growth playbook to app founders. The product teaches founders how to get 0→10K users with zero ad spend using organic TikTok content.
 
-**Live URL:** https://tiktok-launch-system.vercel.app
+**Live URL:** https://tiklaunch.io
 **Status:** v0.1 Alpha — Landing page & checkout are production-ready. Dashboard is early-stage.
 
 ## Tech Stack

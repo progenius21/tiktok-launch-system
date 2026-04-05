@@ -5,7 +5,7 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || 'https://tiktok-launch-system.vercel.app';
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://tiklaunch.io';
 
 const FROM_EMAIL =
   process.env.RESEND_FROM_EMAIL || 'TikTok Launch System <onboarding@resend.dev>';

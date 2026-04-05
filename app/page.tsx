@@ -199,7 +199,7 @@ export default function Home() {
     "@type": "Product",
     "name": "TikTok Launch System",
     "description": "The exact TikTok system used to take apps from invisible to thousands of daily downloads. No ads. No tricks. A repeatable content engine you can hand to a VA.",
-    "url": "https://tiktok-launch-system.vercel.app",
+    "url": "https://tiklaunch.io",
     "brand": {
       "@type": "Brand",
       "name": "TikTok Launch System"
@@ -209,7 +209,7 @@ export default function Home() {
       "price": "149",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://tiktok-launch-system.vercel.app",
+      "url": "https://tiklaunch.io",
       "priceValidUntil": "2027-12-31"
     }
   };
@@ -218,11 +218,11 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "TikTok Launch System",
-    "url": "https://tiktok-launch-system.vercel.app",
+    "url": "https://tiklaunch.io",
     "description": "Organic TikTok growth system for app founders. 0 to 10K users, $0 ad spend.",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://tiktok-launch-system.vercel.app/?q={search_term_string}",
+      "target": "https://tiklaunch.io/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -265,15 +265,18 @@ export default function Home() {
         <a className="nav-logo" href="/" aria-label="TikTok Launch System — Home">
           TIKTOK<span aria-hidden="true">.</span>LAUNCH
         </a>
-        <button
-          className="nav-cta"
-          onClick={handleCheckout}
-          disabled={loading}
-          type="button"
-          aria-busy={loading}
-        >
-          {loading ? "Loading..." : "Get Access →"}
-        </button>
+        <div className="nav-right">
+          <a className="nav-link" href="/tools/hook-generator">Free Hook Generator</a>
+          <button
+            className="nav-cta"
+            onClick={handleCheckout}
+            disabled={loading}
+            type="button"
+            aria-busy={loading}
+          >
+            {loading ? "Loading..." : "Get Access →"}
+          </button>
+        </div>
       </nav>
 
       <main id="main-content">

@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildWarmUpEmail(_from?: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tiktok-launch-system.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tiklaunch.io';
 
   return `<!DOCTYPE html>
 <html lang="en">
