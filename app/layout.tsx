@@ -75,6 +75,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bebasNeue.variable} ${dmMono.variable} ${instrumentSerif.variable}`}>
       <body>
+        <a href="#main-content" className="skip-nav">Skip to main content</a>
         {children}
         <Analytics />
 

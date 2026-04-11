@@ -6,7 +6,7 @@ import ExitIntentPopup from "@/components/ExitIntentPopup";
 const tickerItems = [
   "Account Warm-Up Protocol",
   "KOL Satellite Strategy",
-  "335K+ Organic Views",
+  "2M+ Organic Views",
   "VA Execution Playbook",
   "US Market VPN Setup",
   "$0 Ad Spend",
@@ -28,7 +28,7 @@ const modules = [
   {
     num: "03",
     title: "KOL Satellite Account Strategy",
-    desc: "Build a network of influencer-style accounts that create FOMO and trust around your app. The exact method that generated 335K+ views organically.",
+    desc: "Build a network of influencer-style accounts that create FOMO and trust around your app. The exact method that generated 2M+ views organically.",
     tag: "Growth Engine",
   },
   {
@@ -58,17 +58,17 @@ const modules = [
 ];
 
 const viewCards = [
-  { count: "246", unit: "K", type: "Top performing account", width: "100%" },
+  { count: "250", unit: "K", type: "Top performing account", width: "100%" },
   { count: "35", unit: "K", type: "Combined smaller accounts", width: "14%" },
   { count: "31", unit: "K", type: "Second account", width: "13%" },
   { count: "23", unit: "K", type: "Third account", width: "9%" },
 ];
 
 const realResults = [
-  { num: "335K+", label: "Total Views" },
+  { num: "2M+", label: "Total Views" },
   { num: "$0", label: "Ad Spend" },
   { num: "6", label: "Active Accounts" },
-  { num: "246K+", label: "Organic Reach" },
+  { num: "250K+", label: "Organic Reach" },
 ];
 
 const features = [
@@ -267,6 +267,7 @@ export default function Home() {
         </a>
         <div className="nav-right">
           <a className="nav-link" href="/tools/hook-generator">Free Hook Generator</a>
+          <a className="nav-link" href="/dashboard">Dashboard</a>
           <button
             className="nav-cta"
             onClick={handleCheckout}
@@ -300,7 +301,9 @@ export default function Home() {
                 <br />
                 10,000
                 <br />
-                <span className="accent-line">users.</span>
+                USERS VIA
+                <br />
+                <span className="accent-line"><span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>TikTok.</span></span>
                 ZERO
                 <br />
                 AD SPEND.
@@ -356,7 +359,7 @@ export default function Home() {
             </div>
             <div className="proof-item" role="listitem">
               <span className="proof-num">
-                335<span className="unit" aria-hidden="true">K+</span>
+                2<span className="unit" aria-hidden="true">M+</span>
               </span>
               <span className="proof-label">Views generated organically</span>
             </div>
@@ -460,6 +463,79 @@ export default function Home() {
                 <span className="module-tag" aria-label={`Category: ${mod.tag}`}>{mod.tag}</span>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* DASHBOARD PREVIEW */}
+        <section id="dashboard-preview" className="dash-preview-section" aria-labelledby="dash-preview-heading">
+          <div className="section-tag" aria-hidden="true">Your Growth Command Centre</div>
+          <h2 className="section-title" id="dash-preview-heading">
+            YOUR GROWTH
+            <br />
+            COMMAND CENTRE
+          </h2>
+          <div className="fake-browser" role="img" aria-label="Dashboard preview screenshot">
+            <div className="fake-browser-bar" aria-hidden="true">
+              <div className="fake-browser-dot" />
+              <div className="fake-browser-dot" />
+              <div className="fake-browser-dot" />
+              <div className="fake-browser-url">app.tiklaunch.io/dashboard</div>
+            </div>
+            <div className="fake-browser-inner" aria-hidden="true">
+              <div className="fake-sidebar">
+                <div className="fake-sidebar-logo">TIKTOK<span>.</span>LAUNCH</div>
+                <div className="fake-nav-item active">Overview</div>
+                <div className="fake-nav-item">Hook Generator</div>
+                <div className="fake-nav-item">Accounts</div>
+                <div className="fake-nav-item">Content Pipeline</div>
+              </div>
+              <div className="fake-main">
+                <div className="fake-stat-row">
+                  <div className="fake-stat-card">
+                    <div className="fake-stat-label">Active Accounts</div>
+                    <div className="fake-stat-num">6</div>
+                  </div>
+                  <div className="fake-stat-card">
+                    <div className="fake-stat-label">Hooks Generated</div>
+                    <div className="fake-stat-num">142</div>
+                  </div>
+                  <div className="fake-stat-card">
+                    <div className="fake-stat-label">Total Views</div>
+                    <div className="fake-stat-num">2M+</div>
+                  </div>
+                </div>
+                <div className="fake-hook-preview">
+                  <div className="fake-hook-label">AI Hook Generator Preview</div>
+                  <div className="fake-hook-item">This app lets you track your spending without changing how you spend</div>
+                  <div className="fake-hook-item">Nobody tells you this trick exists to stop impulsive purchases</div>
+                  <div className="fake-hook-item">Here is how I saved $400 this month using one feature</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="dash-preview-callouts">
+            <div className="dash-preview-callout">
+              <div className="dash-preview-callout-tag">Feature</div>
+              <div className="dash-preview-callout-title">AI Hook Generator</div>
+              <p className="dash-preview-callout-body">Generate 10 to 20 TikTok hooks for your niche in seconds. Every hook is under 12 words and tested to stop the scroll.</p>
+            </div>
+            <div className="dash-preview-callout">
+              <div className="dash-preview-callout-tag">Feature</div>
+              <div className="dash-preview-callout-title">Account Manager</div>
+              <p className="dash-preview-callout-body">Track every account across warm-up days, status, views, and follower count. Never lose visibility across your whole operation.</p>
+            </div>
+            <div className="dash-preview-callout">
+              <div className="dash-preview-callout-tag">Feature</div>
+              <div className="dash-preview-callout-title">Content Pipeline</div>
+              <p className="dash-preview-callout-body">Move content from Draft to Posted with a full Kanban board. Keep your entire week of content organised in one place.</p>
+            </div>
+          </div>
+          <div className="dash-preview-cta-line">
+            <p className="dash-preview-cta-text">The guide teaches you the system. The dashboard runs it for you.</p>
+            <button className="btn-primary" onClick={handleCheckout} disabled={loading} type="button" aria-busy={loading}>
+              {loading ? "Redirecting..." : "Get The System"}
+              <span className="arrow" aria-hidden="true">→</span>
+            </button>
           </div>
         </section>
 
